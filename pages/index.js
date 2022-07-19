@@ -52,6 +52,7 @@ const postData = async (data) => {
 export default function Home(){
 
     const [results, setResults] = React.useState([]);
+    const [check, setCheck] = React.useState(false);
 
     const {register, handleSubmit} = useForm({
         defaultValues: {
@@ -72,7 +73,11 @@ export default function Home(){
 
     return (
         <>
-            <form onSubmit={handleSubmit(data => postData(data).then(res => true))}>
+            <form onSubmit={handleSubmit(data => {
+                check ? (data.url[data.url.length - 1] === '/' ? data.url += data.item_name : data.url += `/${data.item_name}`) : '';
+                console.log(data.url);
+                postData(data)
+                })}>
                 <select {...register("item_name")} required>
                     <option value="" disabled>Select...</option>
                     <option value="book">Book: $200</option>
@@ -85,6 +90,10 @@ export default function Home(){
                     <span>Webhook payload: </span>
                     <input type="url" {...register("url")}/>
                 </label>
+                <br/>
+                <input type="checkbox" onChange={event => {
+                    setCheck(event.target.checked);
+                }} /><span>Attach item?</span>
                 <br/><br/>
                 <input type="submit" value="Purchase"/>
                 <br/>
