@@ -75,7 +75,7 @@ export default function Home(){
         <>
             <form onSubmit={handleSubmit(data => {
                 check ? (data.url[data.url.length - 1] === '/' ? data.url += data.item_name : data.url += `/${data.item_name}`) : '';
-                console.log(data.url);
+                // console.log(data.url);
                 postData(data)
                 })}>
                 <select {...register("item_name")} required>
